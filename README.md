@@ -1,91 +1,41 @@
-# LLM-Manager
-LLM Manager
+# LLM Manager
 
-A language model management tool for OpenAI API users.
-Project Description
+Badges
 
-This application allows users to manage their API keys and language models from OpenAI API in an organized and efficient way.
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-With the ability to choose your own language model and using your own API key, you have full control over your API limits. The application also keeps a record of your requests in JSON files for easy reference in the future.
 
-This project was developed using Python and its standard libraries, including Tkinter for GUI.
 
-Some of the challenges faced during the development of this project include handling the API key securely and efficiently processing the selected language model.
+## Project Description
 
-There is potential for future implementation of additional features, such as the ability to save custom configurations and integration with other API services.
+LLM Manager is a chatbot application designed for managing language models from OpenAI. It allows users to choose their own language model and use their own API key with the limits defined by them. The application also stores request history in the form of JSON files for future reference.
+
+This project was built using Python and its various libraries such as Tkinter for GUI, filedialog for file management, and OpenAI API for language model interactions.
+
+Some of the challenges faced while building this project were integrating the OpenAI API and ensuring its smooth functioning within the Tkinter interface. In the future, we hope to implement advanced features such as real-time updates on API key usage, better file management options, and improved GUI design.
 How to Install and Run the Project
 
-    Clone the repository to your local machine.
-    Make sure you have Python 3 installed on your system.
-    Navigate to the cloned repository using the command line.
-    Install the required libraries using the following command:
+    Clone the repository to your local machine
+    Install the required packages mentioned in the requirements.txt file
 
 pip install -r requirements.txt
 
-Run the following command to start the application:
+Run the main.py file
 
-    python llm_manager.py
+css
+
+    python main.py
 
 How to Use the Project
 
-    Upon launching the application, you will be presented with the main window.
-    Go to the "File" menu and select either "JSON" or "ENV" to access their respective functions.
-        JSON: Select a JSON file or create a new one in your local directory.
-        ENV: Add an API key as an environment variable on your system.
-    After adding the API key, you can proceed to use the selected language model.
+    The main interface of the LLM Manager contains two options - 'File' and 'Key'.
+        Under the 'File' option, you can select a JSON file or create a new one.
+        Under the 'Key' option, you can add an API key environment variable.
+    To add an API key, select the 'Key' option and click on 'ENV'. A file dialog will appear, select the API key file and set it as an environment variable.
+    To select a JSON file or create a new one, select the 'File' option and click on 'JSON'. A file dialog will appear, select the existing JSON file or create a new one by specifying its name and location.
 
 License
 
 This project is licensed under the MIT license.
-Badges
 
-License: MIT
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-h1, h2, h3 {
-    font-weight: bold;
-}
-
-h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-}
-
-h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-code {
-    font-family: monospace;
-    background-color: #f9f9f9;
-    padding: 2px 5px;
-    border-radius: 5px;
-}
-
-pre {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-ul {
-    margin-bottom: 20px;
-    list-style-type: square;
-}
-
-li {
-    margin-bottom: 10px;
-}
-</style>
+GitHub license
