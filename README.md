@@ -19,9 +19,9 @@ Some of the challenges faced while building this project were integrating the Op
 pip install -r requirements.txt
 ```
 
-3. Run the main.py file
+3. Run the llm_manager.py file
 ```sh
-    python main.py
+python llm_manager.py
 ```
 ## How to Use the Project
 
