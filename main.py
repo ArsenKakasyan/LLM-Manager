@@ -33,8 +33,7 @@ Part 2: Memory and User Interaction
     Pass the edited API response back to Module 1
     Maintain a history of all API responses and user feedback
 '''
-import hashlib
-import json
+from responseProcessor import ResponseProcessor
 import openai
 import os
 import tkinter as tk
@@ -73,9 +72,9 @@ class OPENAI_GUI:
 
         self.user_input.bind("<FocusIn>", clear_user_input_placeholder)
 
-
+        # Send to gpt button
         self.send_to_gpt_button = tk.Button(self.left_frame, text="Send to GPT-3", bg="#1565C0", fg="#FBFBFB", font=("Helvetica", 20, "bold"), command=self.send_to_gpt)
-        self.send_to_gpt_button.pack(side="bottom", pady=10)
+        self.send_to_gpt_button.pack(side="left", pady=10)
 
         # Right frame
         self.right_frame = tk.Frame(self.master, bg="black", width=320)
@@ -89,16 +88,24 @@ class OPENAI_GUI:
         self.middle_frame = tk.Frame(self.master, bg="black", width=640, height=500)
         self.middle_frame.pack(side="left", expand=True, fill="both", padx=10, pady=10)
 
+        # Json Frame
+        self.json_display_frame = tk.Frame(self.middle_frame, bg="black")
+        self.json_display_frame.pack(side="top", expand=True, fill="both", pady=10)
+
         # Text area for JSON display
-        self.json_display = tk.Text(self.middle_frame, height=10, width=40, bg="black", fg="white", font=("Courier", 12, "bold"))
+        self.json_display = tk.Text(self.json_display_frame, height=10, width=40, bg="black", fg="white", font=("Courier", 12, "bold"))
         self.json_display.pack(side="top", expand=True, fill="both")
         self.json_display.insert("1.0", "JSON data will be displayed here...")
 
-        # Text area for user feedback and save feedback button
+        # Button for clear repetitive json
+        self.clear_json_repetitive_hashes_button = tk.Button(self.json_display_frame, text="Clear JSON", bg="#FF0000", fg="#FBFBFB", font=("Helvetica", 20, "bold"), command=self.clear_json_repetitive_hashes)
+        self.clear_json_repetitive_hashes_button.pack(side="left", pady=10)
+
+        # Frame for user feedback input area and save feedback button
         self.feedback_input_frame = tk.Frame(self.middle_frame, bg="black")
         self.feedback_input_frame.pack(side="bottom", expand=True, fill="both", pady=10)
 
-
+        #Text area for input
         self.feedback_input = tk.Entry(self.feedback_input_frame, width=50, bg="black", fg="white", font=("Courier", 12, "bold"))
         self.feedback_input.pack(side="top", expand=True, fill="both")
         self.feedback_input.insert(0, "Enter your feedback here...")
@@ -108,30 +115,34 @@ class OPENAI_GUI:
                 self.feedback_input.delete(0, tk.END)
 
         self.feedback_input.bind("<FocusIn>", clear_feedback_input_placeholder)
-
+        
+        #Save feedback button
         self.save_feedback_button = tk.Button(self.feedback_input_frame, text="Save Feedback", bg="#1565C0", fg="#FBFBFB", font=("Helvetica", 20, "bold"), command=self.save_feedback)
         self.save_feedback_button.pack(side="left", pady=10)
 
-        self.clear_json_repetitive_hashes_button = tk.Button(self.feedback_input_frame, text="Clear JSON", bg="#FF0000", fg="#FBFBFB", font=("Helvetica", 20, "bold"), command=self.clear_json_repetitive_hashes)
-        self.clear_json_repetitive_hashes_button.pack(side="right", pady=10)
 
     def send_to_gpt(self):
         user_input = self.user_input.get("1.0", "end-1c")
         openai.api_key = os.getenv("KEY") 
 
         if user_input:
-            response = openai.Completion.create(
-                model="text-davinci-003",
-                prompt=f"{user_input}",
-                temperature=0.5,
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "I am chatbot that helps to learn Python programming language"},
+                    {"role": "user", "content": user_input}
+                ],
+                temperature=0.0,
                 max_tokens=2048,
                 top_p=1,
                 frequency_penalty=0,
                 presence_penalty=0,
+                stop=None
             )
-            response_text = response["choices"][0]["text"]
+            tokens_used = response['usage']['total_tokens']
+            response_text = response["choices"][0]["message"]["content"]
             self.response_from_gpt.delete("1.0", tk.END)
-            self.response_from_gpt.insert(tk.END, f"Model used: text-davinci-003\n\n{response_text}")
+            self.response_from_gpt.insert(tk.END, f"Model used: gpt-3.5-turbo\nTokens used: {tokens_used}\n\n{response_text}")
 
     def save_feedback(self):
         feedback = self.feedback_input.get()
@@ -152,77 +163,9 @@ class OPENAI_GUI:
 
 
 
-class ResponseProcessor:
-
-    def __init__(self, response_and_feedback, file_path = "response.json"):
-        self.response_and_feedback = response_and_feedback
-        self.file_path = file_path
-        self.responses = []
-
-    def _get_max_response_id(self):
-        try:
-            with open(self.file_path, 'r') as f:
-                data = json.load(f)
-                self.responses = data
-        except json.decoder.JSONDecodeError:
-            data = []
-            with open(self.file_path, 'w') as f:
-                json.dump(data, f)
-        if not data:
-            return 0
-        return max(data, key=lambda x: x['response_id'])['response_id']
-
-    def _save_response_to_file(self):
-        with open("response.json", "w") as f:
-            json.dump(self.responses, f, indent=4)
-
-    def process_response_from_gpt(self):
-        response_hash = hashlib.sha256(str(self.response_and_feedback).encode()).hexdigest()
-        
-        for response in self.responses:
-            if response["response_hash"] == response_hash:
-                return
-                
-        response_id = self._get_max_response_id() + 1
-        data = {
-            "response_id": response_id,
-            "response_text": self.response_and_feedback[0],
-            "response_hash": response_hash,
-            "response_edit": self.response_and_feedback[1]
-        }
-        self.responses.append(data)
-        self._save_response_to_file()
-
-    def clear_repetitive_hashes(self):
-        try:
-            with open(self.file_path, 'r') as f:
-                self.responses = json.load(f)
-        except json.decoder.JSONDecodeError:
-            self.responses = []
-
-        hashes = []
-        filtered_responses = []
-        response_id = 0
-        for response in self.responses:
-            response_hash = response["response_hash"]
-            if response_hash not in hashes:
-                hashes.append(response_hash)
-                response["response_id"] = response_id
-                filtered_responses.append(response)
-                response_id += 1
-
-        self.responses = filtered_responses
-        self._save_response_to_file()
-
-
-
 def run_module_1():
     root = tk.Tk()
     app = OPENAI_GUI(root)
-    # mainmenu = Menu(root) 
-    # root.config(menu=mainmenu)
-    # mainmenu.add_command(label='Файл')
-    # mainmenu.add_command(label='Справка')
     root.mainloop()
     
 

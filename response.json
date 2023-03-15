@@ -46,5 +46,35 @@
         "response_text": "Response from GPT-3 will appear here...",
         "response_hash": "a8ba693791133e222b2453110e5c9a40dea870ccdd551056791d4752fa9dc94e",
         "response_edit": ""
+    },
+    {
+        "response_id": 8,
+        "response_text": "Model used: text-davinci-003\n\n\n\nA playlist is a list of audio files that can be played in a specific order.\n\nIn Python, a playlist can be created using a list data structure. For example:\n\nplaylist = ['song1.mp3', 'song2.mp3', 'song3.mp3', 'song4.mp3']\n\nTo play the songs in the playlist, you can use a loop:\n\nfor song in playlist:\n    # Play the song\n    # ...",
+        "response_hash": "9fdf1c927e6ca5f0035980b386ea355515ddae7a3a42944ba8b424d4dbedd4a2",
+        "response_edit": ""
+    },
+    {
+        "response_id": 9,
+        "response_text": "Model used: text-davinci-003\n\n\n\nA playlist is a list of audio files that can be played in a specific order.\n\nIn Python, a playlist can be created using a list data structure. For example:\n\nplaylist = ['song1.mp3', 'song2.mp3', 'song3.mp3', 'song4.mp3']\n\nTo play the songs in the playlist, you can use a loop:\n\nfor song in playlist:\n    # Play the song\n    # ...",
+        "response_hash": "2fccfcd6dee3c700c138524fd5c8960154186991935bb1590baeafb951001e3d",
+        "response_edit": "changes"
+    },
+    {
+        "response_id": 10,
+        "response_text": "Model used: text-davinci-003\n\n\n\n# Create a list of strings\nlist_of_strings = ['apple', 'banana', 'orange']\n\n# Access the first item in the list\nfirst_item = list_of_strings[0]\n\n# Add a new item to the list\nlist_of_strings.append('kiwi')\n\n# Remove an item from the list\nlist_of_strings.remove('banana')\n\n# Print the list\nprint(list_of_strings)\n# Output: ['apple', 'orange', 'kiwi']",
+        "response_hash": "a4ef4fb19768798a320f63865c736d5a64d4b02531af740c14dc581df3f5a55c",
+        "response_edit": "good shit"
+    },
+    {
+        "response_id": 11,
+        "response_text": "Model used: gpt-3.5-turbo\n Tokens used: 157 \nSure, here's an example of a list in Python:\n\n```\nmy_list = [1, 2, 3, 4, 5]\n```\n\nTo extract the first element of the list, you can use indexing. In Python, indexing starts at 0, so the first element of the list has an index of 0. Here's how you can extract the first element:\n\n```\nfirst_element = my_list[0]\n```\n\nAfter running this code, the variable `first_element` will contain the value `1`, which is the first element of the list.",
+        "response_hash": "ca75521d86ff3e71baa0b942a4fa3929409df0ebeeec0486eba1bf109840e070",
+        "response_edit": "nice answer"
+    },
+    {
+        "response_id": 12,
+        "response_text": "Model used: gpt-3.5-turbo\nTokens used: 171\n\nTo create a list in Python, you can use square brackets `[]` and separate the elements with commas. Here's an example:\n\n```\nmy_list = [1, 2, 3, 4, 5]\n```\n\nThis creates a list called `my_list` with five elements: 1, 2, 3, 4, and 5. You can also create an empty list like this:\n\n```\nempty_list = []\n```\n\nYou can add elements to a list using the `append()` method. For example:\n\n```\nmy_list.append(6)\n```\n\nThis adds the number 6 to the end of the list.",
+        "response_hash": "7173a0e533bfb97c693471e108fbb6c7530409572d760965f8c21956b4bf4411",
+        "response_edit": "Nice answer"
     }
 ]
